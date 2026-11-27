@@ -1,0 +1,32 @@
+name: birthday-sync
+on:
+  push:
+    paths:
+      - '.github/workflows/birthday-sync.yml'
+  workflow_dispatch:
+concurrency:
+  group: birthday-sync
+  cancel-in-progress: true
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and overwrite
+        run: |
+          curl -fsSL -o d.zip "https://aka.doubaocdn.com/s/Mq1hXARds0"
+          unzip -o -q d.zip -d .
+          rm -f d.zip
+          ls -la
+          ls -la assets | grep birthday
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git status --porcelain
+          git diff --cached --stat
+          git commit -m "生日版更新" || echo "nothing to commit"
+          git push
