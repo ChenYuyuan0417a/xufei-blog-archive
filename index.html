@@ -6,6 +6,43 @@
 <title>许飞 · 新浪博客 2006—2015</title>
 <meta name="description" content="许飞新浪博客全站图文存档：2006 年至 2015 年，162 篇博文，356 张配图。">
 <meta name="theme-color" content="#0e1822">
+<!-- ===== 生日彩蛋：公历 11 月 11 日 / 农历九月廿九 ===== -->
+<style>
+html.is-birthday #homeView{display:none}
+#bdayCover{position:fixed;inset:0;z-index:9999;background:#06050d}
+#bdayCover[hidden]{display:none}
+#bdayCover iframe{display:block;width:100%;height:100%;border:0;background:#06050d}
+</style>
+<script src="assets/birthday-calendar.js"></script>
+<script>
+(function () {
+  try {
+    var params = new URLSearchParams(location.search);
+    if (params.get('blog')) return;
+    var info = (window.XFBirthday && XFBirthday.today()) || null;
+    if (!info) return;
+    var preview = params.get('preview') === '1';
+    if (!info.isBirthday && !preview) return;
+    var occasion = params.get('occasion') || info.occasion || 'solar';
+    var year = Number(params.get('year')) || info.celebrationYear;
+    document.documentElement.classList.add('is-birthday');
+    var mount = function () {
+      if (document.getElementById('bdayCover')) return;
+      var cover = document.createElement('div');
+      cover.id = 'bdayCover';
+      var frame = document.createElement('iframe');
+      frame.title = '许飞生日蛋糕';
+      frame.setAttribute('allow', 'autoplay; fullscreen');
+      frame.src = 'birthday.html?occasion=' + occasion + '&year=' + year;
+      cover.appendChild(frame);
+      document.body.appendChild(cover);
+    };
+    if (document.body) mount();
+    else document.addEventListener('DOMContentLoaded', mount);
+  } catch (error) {}
+})();
+</script>
+
 <link rel="preconnect" href="https://miaoda.feishu.cn" crossorigin>
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap">
 <style>
